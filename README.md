@@ -7,6 +7,8 @@ You host the authorized keys list on a web host, and configure `cron` on your se
 
 ## Installation
 
+Dependencies: bash, curl, gpg, cron. Tested on Debian 12 bookworm.
+
 1. Export your public key: `gpg --output public.gpg --export me@example.com`
     
     Transfer it to your target server and import it to the `root` user: `sudo gpg --import public.gpg`
@@ -21,7 +23,7 @@ You host the authorized keys list on a web host, and configure `cron` on your se
 
 4. Run the installation script (`install_agent.sh`) on each server
 
-    You'll need to enter the URL where the keys are hosted, your signature and the targeted user (the user for which the `authorized_keys` file will be synced). **Don't manually modify `server_agent.sh`,** the script will do it for you.
+    You'll need to enter the URL where the keys are hosted, your signature (`gpg -K`) and the targeted user (the user for which the `authorized_keys` file will be synced). **Don't manually modify `server_agent.sh`,** the script will do it for you.
 
     The server agent is installed in `/opt/authorized_keys_sync/` under the `root` user, and a cron will be set. Every 6 hours, it will download the keys from the URL, check their signature and replace them with the new version.
 
