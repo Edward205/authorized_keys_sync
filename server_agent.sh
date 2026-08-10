@@ -9,7 +9,7 @@ VERSION=0
 message="$(curl -s "$AUTHORIZED_KEYS_URL")"
 
 signed_by="$(echo -ne "$message" | gpg --status-fd=1 --verify - 2> /dev/null | awk '/^\[GNUPG:\] VALIDSIG / { print $3; exit }')"
-if [[ $signed_by == $SIGNATURE ]]; then
+if [[ -n "$SIGNATURE" && "$signed_by" == "$SIGNATURE" ]]; then
 
   content="$(gpg --decrypt <<< "$message" 2>/dev/null)"
   got_version=$(("$(echo -e "$content" | head -n 1)"))
