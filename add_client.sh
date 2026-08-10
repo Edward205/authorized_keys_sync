@@ -10,7 +10,7 @@ if [[ -z "$url" ]]; then
   version=0
 elif [[ -n "$url" ]]; then
   echo "Downloading existing authorized keys..."
-  keys_to_parse="$(curl -s "$url")"
+  keys_to_parse="$(curl -s "$url" --max-time 5)"
   
   keys=()
   if content="$(gpg --decrypt <<< "$keys_to_parse" 2>/dev/null)"; then

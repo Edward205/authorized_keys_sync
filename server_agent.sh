@@ -6,7 +6,7 @@ TARGET_USER="<your_user>"
 SCRIPT_PATH="<current_path>"
 VERSION=0
 
-message="$(curl -s "$AUTHORIZED_KEYS_URL")"
+message="$(curl -s "$AUTHORIZED_KEYS_URL" --max-time 5)"
 
 signed_by="$(echo -ne "$message" | gpg --status-fd=1 --verify - 2> /dev/null | awk '/^\[GNUPG:\] VALIDSIG / { print $3; exit }')"
 if [[ -n "$SIGNATURE" && "$signed_by" == "$SIGNATURE" ]]; then
